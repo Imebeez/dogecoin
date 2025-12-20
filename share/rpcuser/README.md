@@ -7,4 +7,4 @@ Create an RPC user login credential.
 
 Usage:
 
-    ./rpcuser.py jennwardo.org
+    ./rpcuser.py
