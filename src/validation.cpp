@@ -786,7 +786,7 @@ bool AcceptToMemoryPoolWorker(CTxMemPool& pool, CValidationState& state, const C
 
         CAmount mempoolRejectFee = pool.GetMinFee(GetArg("-maxmempool", DEFAULT_MAX_MEMPOOL_SIZE) * 1000000).GetFee(nSize);
         if (mempoolRejectFee > 0 && nModifiedFees < mempoolRejectFee) {
-            return state.DoS(0, false, REJECT_INSUFFICIENTFEE, "mempool min fee not met", false, strprintf("%d < %d", nFees, mempoolRejectFee));
+            return state.DoS(0, false, REJECT_INSUFFICIENTFEE, "mempool min fee not met", false, strprintf("%d < %d", nModifiedFees, mempoolRejectFee));
         } else if (GetBoolArg("-relaypriority", DEFAULT_RELAYPRIORITY) && nModifiedFees < ::minRelayTxFeeRate.GetFee(nSize) && !AllowFree(entry.GetPriority(chainActive.Height() + 1))) {
             // Require that free transactions have sufficient priority to be mined in the next block.
             return state.DoS(0, false, REJECT_INSUFFICIENTFEE, "insufficient priority");
@@ -2414,7 +2414,7 @@ static CBlockIndex* FindMostWorkChain() {
         }
         if (!fInvalidAncestor)
             return pindexNew;
-    } while(true);
+    } while (true);
 }
 
 /** Delete all entries in setBlockIndexCandidates that are worse than the current tip. */
@@ -3109,7 +3109,7 @@ bool ContextualCheckBlockHeader(const CBlockHeader& block, CValidationState& sta
     // Reject outdated version blocks when 95% (75% on testnet) of the network has upgraded:
     // check for version 2, 3 and 4 upgrades
     // Dogecoin: Version 2 enforcement was never used
-    if((block.GetBaseVersion() < 3 && nHeight >= consensusParams.BIP66Height) ||
+    if ((block.GetBaseVersion() < 3 && nHeight >= consensusParams.BIP66Height) ||
        (block.GetBaseVersion() < 4 && nHeight >= consensusParams.BIP65Height))
             return state.Invalid(false, REJECT_OBSOLETE, strprintf("bad-version(0x%08x)", block.GetBaseVersion()),
                                  strprintf("rejected nVersion=0x%08x block", block.GetBaseVersion()));
