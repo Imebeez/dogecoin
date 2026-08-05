@@ -25,4 +25,4 @@ Security notes:
 
 - Only add the `rpcauth=...` line to `dogecoin.conf`; do NOT store the plaintext password in configuration files.
 - Ensure `dogecoin.conf` permissions are restrictive (e.g. `chmod 600 ~/.dogecoin/dogecoin.conf`).
-- The script by default uses the hex-encoded salt string as the HMAC key to preserve compatibility with the original script; if you prefer raw salt bytes as the HMAC key, update the implementation accordingly.
+- The script now uses the raw salt bytes as the HMAC key (bytes.fromhex(salt)), which is the canonical behavior: the salt is random bytes stored hex-encoded, and the raw bytes are used as the HMAC key.

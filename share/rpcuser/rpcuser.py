@@ -30,11 +30,11 @@ def password_to_hmac(salt: str, password: str) -> str:
     """
     Compute HMAC-SHA256 for the given salt and password.
 
-    Note: preserves the original script behavior of using the hex salt string
-    as the HMAC key (encoded as ASCII). If you'd prefer to use the raw salt
-    bytes as the key, replace key = salt.encode("ascii") with key = bytes.fromhex(salt).
+    Uses the raw salt bytes (bytes.fromhex(salt)) as the HMAC key. This is the
+    clearer/canonical interpretation: the salt is generated as random bytes,
+    hex-encoded for storage, and the raw bytes are used as the HMAC key.
     """
-    key = salt.encode("ascii")
+    key = bytes.fromhex(salt)
     msg = password.encode("utf-8")
     m = hmac.new(key, msg, hashlib.sha256)
     return m.hexdigest()

@@ -17,7 +17,8 @@ def test_password_to_hmac_deterministic():
     rpc = load_rpcuser_module()
     salt = "a1b2c3d4"
     password = "hunter2"
-    expected = hmac.new(salt.encode("ascii"), password.encode("utf-8"), hashlib.sha256).hexdigest()
+    # expected computed with the new logic: key = bytes.fromhex(salt)
+    expected = hmac.new(bytes.fromhex(salt), password.encode("utf-8"), hashlib.sha256).hexdigest()
     assert rpc.password_to_hmac(salt, password) == expected
 
 
